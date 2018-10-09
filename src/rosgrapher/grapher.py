@@ -91,26 +91,26 @@ class Grapher(object):
         systemstate = self._master.getSystemState()
         for topic_name, publisher_list in systemstate[0]:
             if topic_name not in topics.keys():
-                rospy.logerr("Topic %s not found, skipping" % topic_name)
+                rospy.loginfo("Topic %s not found, skipping" % topic_name)
             for publishername in publisher_list:
                 if publishername not in nodes:
-                    rospy.logwarn("Node '%s' was not previously reported, "
+                    rospy.loginfo("Node '%s' was not previously reported, "
                                   "but is listed as publisher" % publishername)
                     continue
                 nodes[publishername].publishes.append(topic_name)
         for topic_name, subscriber_list in systemstate[1]:
             if topic_name not in topics.keys():
-                rospy.logerr("Topic %s not found, skipping" % topic_name)
+                rospy.loginfo("Topic %s not found, skipping" % topic_name)
             for subscribername in subscriber_list:
                 if subscribername not in nodes:
-                    rospy.logwarn("Node '%s' was not previously reported, "
+                    rospy.loginfo("Node '%s' was not previously reported, "
                                   "but is listed as subscriber" % subscribername)
                     continue
                 nodes[subscribername].subscribes.append(topic_name)
         for service_name, provider_list in systemstate[2]:
             for providername in provider_list:
                 if providername not in nodes:
-                    rospy.logwarn("Node '%s' was not previously reported, but "
+                    rospy.loginfo("Node '%s' was not previously reported, but "
                                   "is listed as service provider" % providername)
                     continue
                 service = Service(name=service_name)
@@ -142,7 +142,7 @@ class Grapher(object):
                     c.topic = bus[4]
                     node.connections.append(c)
             except xmlrpclib.socket.error:
-                rospy.logerr("WANRING: XML RPC ERROR contacting '%s', skipping" % node.name)
+                rospy.logerr("WARNING: XML RPC ERROR contacting '%s', skipping" % node.name)
                 continue
 
         # If any nodes or topics are added removed or changed, publish update
