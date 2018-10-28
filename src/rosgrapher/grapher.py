@@ -82,7 +82,7 @@ class Grapher(object):
                 node.uri = self._master.lookupNode(name)
                 node_uris[node.uri] = name
             except rosgraph.masterapi.MasterError:
-                rospy.logerr("WARNING: MasterAPI Error trying to contact '%s', skipping" % name)
+                rospy.loginfo("WARNING: MasterAPI Error trying to contact '%s', skipping" % name)
                 continue
             else:
                 nodes[name] = node
@@ -117,7 +117,7 @@ class Grapher(object):
                 try:
                     service.uri = self._master.lookupService(service_name)
                 except rosgraph.masterapi.MasterError:
-                    rospy.logerr("WARNING: MasterAPI Error trying to lookup service '%s', skipping" % service_name)
+                    rospy.loginfo("WARNING: MasterAPI Error trying to lookup service '%s', skipping" % service_name)
                     continue
                 else:
                     nodes[providername].provides.append(service)
@@ -142,7 +142,7 @@ class Grapher(object):
                     c.topic = bus[4]
                     node.connections.append(c)
             except xmlrpclib.socket.error:
-                rospy.logerr("WARNING: XML RPC ERROR contacting '%s', skipping" % node.name)
+                rospy.loginfo("WARNING: XML RPC ERROR contacting '%s', skipping" % node.name)
                 continue
 
         # If any nodes or topics are added removed or changed, publish update
